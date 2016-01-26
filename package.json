@@ -1,6 +1,6 @@
 {
   "name": "api-plugin",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "angular plugin to connect to the api",
   "main": "index.js",
   "scripts": {
