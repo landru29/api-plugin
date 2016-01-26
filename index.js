@@ -16,6 +16,7 @@ angular.module('api-plugin', ['ngStorage'])
         });
         var redirect = window.location.protocol + '//' +
                        window.location.host +
+                       window.location.pathname +
                        (buildQuery.length ? "?" + buildQuery.join("&") :'');
         window.location=redirect;
     }
