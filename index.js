@@ -40,6 +40,7 @@ angular.module('api-plugin', ['ngStorage'])
 }])
 
 .service('Login', ['$http', '$q', '$localStorage', function ($http, $q, $localStorage) {
+	'use strict';
     return {
 		login: function(token) {
 			$localStorage.accessToken = token;
