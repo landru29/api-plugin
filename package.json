@@ -1,0 +1,19 @@
+{
+  "name": "api-plugin",
+  "version": "1.0.0",
+  "description": "angular plugin to connect to the api",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/landru29/api-plugin.git"
+  },
+  "author": "cmeichel@free.fr",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/landru29/api-plugin/issues"
+  },
+  "homepage": "https://github.com/landru29/api-plugin#readme"
+}
