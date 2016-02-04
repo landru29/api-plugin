@@ -1,5 +1,7 @@
 angular.module('api-plugin', ['ngStorage'])
 
+.constant('defaultNoopyUrl', 'http://api.noopy.fr/api')
+
 .run(['Login', function(Login) {
 	'use strict';
     var query = {};
@@ -22,22 +24,61 @@ angular.module('api-plugin', ['ngStorage'])
     }
 }])
 
-.factory('OAuthInterceptor', ['$localStorage', function ($localStorage) {
+.factory('NoopyAuthInterceptor', ['$localStorage', 'Noopy', function ($localStorage, Noopy) {
 	'use strict';
     return {
         'request': function (config) {
-            var accessToken = $localStorage.accessToken;
-            if (accessToken) {
-                 config.headers.Authorization = ['Bearer',  accessToken].join(' ');
-            }
+			var noopyRegex = /^\/?noopy-api/;
+			console.log(config.url);
+			if (noopyRegex.test(config.url)) {
+				config.url = config.url.replace(noopyRegex, Noopy.getApiUrl());
+				var accessToken = $localStorage.accessToken;
+	            if (accessToken) {
+	                 config.headers.Authorization = ['Bearer',  accessToken].join(' ');
+	            }
+			}
             return config;
         }
     };
 }])
 
+.provider('Noopy', ['defaultNoopyUrl', function(defaultNoopyUrl) {
+	var baseUrl = defaultNoopyUrl;
+
+	var setBaseUrl = function(url) {
+		baseUrl = url.replace(/\/$/, '');
+	};
+
+	var getBaseUrl = function() {
+		return baseUrl;
+	};
+
+	var getApiUrl = function() {
+		return baseUrl + '/api';
+	};
+
+	var getLoginUrl = function() {
+		return baseUrl;
+	}
+
+	this.setBaseUrl = setBaseUrl;
+	this.getBaseUrl = getBaseUrl;
+	this.getApiUrl = getApiUrl;
+	this.getLoginUrl = getLoginUrl;
+
+	this.$get = [function () {
+        return {
+			setBaseUrl: setBaseUrl,
+			getBaseUrl: getBaseUrl,
+			getApiUrl: getApiUrl,
+			getLoginUrl: getLoginUrl
+		}
+	}];
+}])
+
 .config(['$httpProvider', function($httpProvider) {
 	'use strict';
-	$httpProvider.interceptors.push('OAuthInterceptor');
+	$httpProvider.interceptors.push('NoopyAuthInterceptor');
 }])
 
 .service('Login', ['$http', '$q', '$localStorage', function ($http, $q, $localStorage) {
