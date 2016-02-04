@@ -6,7 +6,7 @@
     "cmeichel@free.fr"
   ],
   "license": "ISC",
-  "homepage": "https://github.com/landru29/api-plugin",
+  "homepage": "https://github.com/landru29/noopy-api-plugin",
   "moduleType": [],
   "private": true,
   "dependencies": {

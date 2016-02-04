@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/landru29/api-plugin.git"
+    "url": "git+https://github.com/landru29/noopy-api-plugin.git"
   },
   "author": "cmeichel@free.fr",
   "license": "ISC",
