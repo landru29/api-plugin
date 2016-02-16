@@ -1,6 +1,6 @@
 angular.module('api-plugin', ['ngStorage'])
 
-.constant('defaultNoopyUrl', 'http://api.noopy.fr/api')
+.constant('defaultNoopyUrl', 'http://api.noopy.fr')
 
 .run(['Login', function(Login) {
 	'use strict';
@@ -29,7 +29,6 @@ angular.module('api-plugin', ['ngStorage'])
     return {
         'request': function (config) {
 			var noopyRegex = /^\/?noopy-api/;
-			console.log(config.url);
 			if (noopyRegex.test(config.url)) {
 				config.url = config.url.replace(noopyRegex, Noopy.getApiUrl());
 				var accessToken = $localStorage.accessToken;
@@ -44,6 +43,7 @@ angular.module('api-plugin', ['ngStorage'])
 
 .provider('Noopy', ['defaultNoopyUrl', function(defaultNoopyUrl) {
 	var baseUrl = defaultNoopyUrl;
+	var applicationId;
 
 	var setBaseUrl = function(url) {
 		baseUrl = url.replace(/\/$/, '');
@@ -57,21 +57,27 @@ angular.module('api-plugin', ['ngStorage'])
 		return baseUrl + '/api';
 	};
 
+	var setApplicationId = function(id) {
+		applicationId = id;
+	};
+
 	var getLoginUrl = function() {
-		return baseUrl;
+		return baseUrl + (applicationId ? '?appId=' + encodeURIComponent(applicationId) : '');
 	}
 
 	this.setBaseUrl = setBaseUrl;
 	this.getBaseUrl = getBaseUrl;
 	this.getApiUrl = getApiUrl;
 	this.getLoginUrl = getLoginUrl;
+	this.setApplicationId = setApplicationId;
 
 	this.$get = [function () {
         return {
 			setBaseUrl: setBaseUrl,
 			getBaseUrl: getBaseUrl,
 			getApiUrl: getApiUrl,
-			getLoginUrl: getLoginUrl
+			getLoginUrl: getLoginUrl,
+			setApplicationId: setApplicationId
 		}
 	}];
 }])
